@@ -1,0 +1,40 @@
+#import libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, classification_report
+#load and explore dataset
+# Load the dataset (replace 'iris.csv' with the actual path to the dataset)
+iris_data = pd.read_csv('iris.csv')
+
+# Display the first few rows of the dataset
+print(iris_data.head())
+
+# Separate the features (sepal length, sepal width, petal length, petal width) and the target variable (variety)
+X = iris_data[['sepal.length', 'sepal.width', 'petal.length', 'petal.width']]
+y = iris_data['variety']
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+#Train the model
+# Create an instance of the KNN classifier
+model = KNeighborsClassifier(n_neighbors=3)  # You can adjust the number of neighbors as per your preference
+
+# Train the model
+model.fit(X_train, y_train)
+#Evaluate the model
+# Make predictions on the testing data
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+classification_report = classification_report(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("Classification Report:")
+print(classification_report)
+#Prediction
+# Example prediction for a new flower
+new_flower = [[6, 2, 5, 2]]  # Example features: sepal length, sepal width, petal length, petal width
+
+predicted_variety = model.predict(new_flower)
+print("Predicted Variety:", predicted_variety)
